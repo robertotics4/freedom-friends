@@ -24,20 +24,32 @@ module.exports = {
     async show(req, res) {
         const { id } = req.params;
 
-        const user = await User.findByPk(id);
-
-        if (!user) {
-            return res.json({ error: 'User not found.' });
-        }
-
-        return res.json(user);
+        await User.findByPk(id)
+            .then(result => {
+                if (!result) {
+                    return res.status(404).json({ error: 'User not found' });
+                } else {
+                    return res.status(200).json(result);
+                }
+            })
+            .catch(err => {
+                return res.status(500).json({ error: err.message });
+            });
     },
 
     async destroy(req, res) {
         const { id } = req.params;
 
-        const user = await User.destroy({ where: { id } });
-
-        return res.json(user);
+        await User.destroy({ where: { id } })
+            .then(result => {
+                if (result !== 1) {
+                    return res.status(404).json({ error: 'User not found' });
+                } else {
+                    return res.status(200).json({ message: 'User successfully deleted' });
+                }
+            })
+            .catch(err => {
+                return res.status(500).json({ error: err.message });
+            });
     }
 };
