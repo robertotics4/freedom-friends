@@ -27,6 +27,11 @@ class User extends Model {
                 },
             }
         }, {
+            scopes: {
+                withoutPassword: {
+                    attributes: { exclude: ['password'] },
+                },
+            },
             sequelize
         });
     }

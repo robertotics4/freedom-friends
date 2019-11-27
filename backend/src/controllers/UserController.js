@@ -3,7 +3,7 @@ const User = require('../models/User');
 module.exports = {
     async index(req, res) {
         try {
-            const users = await User.findAll();
+            const users = await User.scope('withoutPassword').findAll();
 
             return res.json(users);
         } catch (err) {
@@ -15,7 +15,7 @@ module.exports = {
         try {
             const { name, email, password } = req.body;
 
-            const user = await User.create({ name, email, password })
+            const user = await User.scope('withoutPassword').create({ name, email, password })
 
             if (!user) {
                 return res.status(400).json(user);
@@ -31,7 +31,7 @@ module.exports = {
         try {
             const { id } = req.params;
 
-            const user = await User.findByPk(id);
+            const user = await User.scope('withoutPassword').findByPk(id);
 
             if (!user) {
                 return res.status(404).json({ error: 'User not found' });
