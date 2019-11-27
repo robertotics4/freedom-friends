@@ -2,54 +2,61 @@ const User = require('../models/User');
 
 module.exports = {
     async index(req, res) {
-        const users = await User.findAll();
+        try {
+            const users = await User.findAll();
 
-        return res.json(users);
+            return res.json(users);
+        } catch (err) {
+            return res.status(400).json({ error: err.message });
+        }
     },
 
     async store(req, res) {
-        const { name, email } = req.body;
+        try {
+            const { name, email, password } = req.body;
 
-        let user = await User.findOne({ where: { email } });
+            const user = await User.create({ name, email, password })
 
-        if (user) {
-            return res.json({ error: 'Email is already in use' });
+            if (!user) {
+                return res.status(400).json(user);
+            }
+
+            return res.status(200).json(user);
+        } catch (err) {
+            return res.status(400).json({ error: err.message });
         }
-
-        user = await User.create({ name, email });
-
-        return res.json(user);
     },
 
     async show(req, res) {
-        const { id } = req.params;
+        try {
+            const { id } = req.params;
 
-        await User.findByPk(id)
-            .then(result => {
-                if (!result) {
-                    return res.status(404).json({ error: 'User not found' });
-                } else {
-                    return res.status(200).json(result);
-                }
-            })
-            .catch(err => {
-                return res.status(500).json({ error: err.message });
-            });
+            const user = await User.findByPk(id);
+
+            if (!user) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+
+            return res.status(200).json(user);
+        } catch (err) {
+            return res.status(400).json({ error: err.message });
+        }
     },
 
     async destroy(req, res) {
-        const { id } = req.params;
+        try {
+            const { id } = req.params;
 
-        await User.destroy({ where: { id } })
-            .then(result => {
-                if (result !== 1) {
-                    return res.status(404).json({ error: 'User not found' });
-                } else {
-                    return res.status(200).json({ message: 'User successfully deleted' });
-                }
-            })
-            .catch(err => {
-                return res.status(500).json({ error: err.message });
-            });
+            const user = await User.destroy({ where: { id } });
+
+            if (user !== 1) {
+                return res.status(404).json({ error: 'User not found' });
+            } else {
+                return res.status(200).json({ message: 'User successfully deleted' });
+            }
+        } catch (err) {
+            return res.status(400).json({ error: err.message });
+        }
+
     }
 };
