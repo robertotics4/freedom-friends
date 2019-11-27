@@ -16,13 +16,9 @@ class User extends Model {
                     isEmail: { msg: 'This field must be an email' },
                 },
             },
-            password: {
+            password_hash: {
                 type: DataTypes.STRING,
                 validate: {
-                    len: {
-                        args: [6, 20],
-                        msg: 'Password must be between 6 and 20 characters'
-                    },
                     notEmpty: { msg: 'Password field cannot be empty' },
                 },
             }
