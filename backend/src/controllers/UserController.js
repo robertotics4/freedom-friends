@@ -13,9 +13,11 @@ module.exports = {
 
     async store(req, res) {
         try {
-            const { name, email, password_hash } = req.body;
+            const { name, email, password } = req.body;
 
-            const user = await User.scope('withoutPassword').create({ name, email, password_hash })
+            const user = await User.scope('withoutPassword').create({
+                name, email, password
+            });
 
             if (!user) {
                 return res.status(400).json(user);
@@ -57,6 +59,5 @@ module.exports = {
         } catch (err) {
             return res.status(400).json({ error: err.message });
         }
-
     }
 };

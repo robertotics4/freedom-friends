@@ -1,3 +1,7 @@
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const environment = require('../../.env');
+
 const { Model, DataTypes } = require('sequelize');
 
 class User extends Model {
@@ -16,6 +20,7 @@ class User extends Model {
                     isEmail: { msg: 'This field must be an email' },
                 },
             },
+            password: DataTypes.VIRTUAL,
             password_hash: {
                 type: DataTypes.STRING,
                 validate: {
@@ -23,14 +28,29 @@ class User extends Model {
                 },
             }
         }, {
+            hooks: {
+                beforeSave: async user => {
+                    if (user.password) {
+                        user.password_hash = await bcrypt.hash(user.password, 8);
+                    }
+                }
+            },
             scopes: {
                 withoutPassword: {
-                    attributes: { exclude: ['password'] },
+                    attributes: { exclude: ['password_hash'] },
                 },
             },
             sequelize
         });
     }
+}
+
+User.prototype.checkPassword = function (password) {
+    return bcrypt.compare(password, this.password_hash);
+}
+
+User.prototype.generateToken = function () {
+    return jwt.sign({ id: this.id }, environment.APP_SECRET);
 }
 
 module.exports = User;
