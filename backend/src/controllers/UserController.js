@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const bcrypt = require('bcryptjs');
 
 module.exports = {
     async index(req, res) {
@@ -15,15 +16,15 @@ module.exports = {
         try {
             const { name, email, password } = req.body;
 
-            const user = await User.scope('withoutPassword').create({
-                name, email, password
-            });
+            let user = await User.findOne({ where: { email } });
 
-            if (!user) {
-                return res.status(400).json(user);
-            }
+            if (user)
+                return res.status(400).json({ error: 'Email address already user' });
 
-            return res.status(200).json(user);
+            user = await User.create({ name, email, password });
+            user.password_hash = undefined;
+
+            return res.status(200).json({ user, token: user.generateToken() });
         } catch (err) {
             return res.status(400).json({ error: err.message });
         }
@@ -59,5 +60,5 @@ module.exports = {
         } catch (err) {
             return res.status(400).json({ error: err.message });
         }
-    }
+    },
 };

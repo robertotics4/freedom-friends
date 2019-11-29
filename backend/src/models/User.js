@@ -50,7 +50,9 @@ User.prototype.checkPassword = function (password) {
 }
 
 User.prototype.generateToken = function () {
-    return jwt.sign({ id: this.id }, environment.APP_SECRET);
+    return jwt.sign({ id: this.id }, environment.APP_SECRET, {
+        expiresIn: 86400, // expires in 1 day
+    });
 }
 
 module.exports = User;

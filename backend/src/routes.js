@@ -13,6 +13,6 @@ routes.delete('/users/:id', UserController.destroy);
 
 routes.post('/sessions', SessionController.store);
 routes.use(authMiddleware);
-routes.get('/dashboard', );
+routes.get('/dashboard', (req, res) => {});
 
 module.exports = routes;
