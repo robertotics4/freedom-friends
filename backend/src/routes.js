@@ -1,10 +1,10 @@
 const express = require('express');
 const routes = express.Router();
 
-const authMiddleware = require('./middlewares/auth');
+const authMiddleware = require('./app/middlewares/auth');
 
-const UserController = require('./controllers/UserController');
-const SessionController = require('./controllers/SessionController');
+const UserController = require('./app/controllers/UserController');
+const SessionController = require('./app/controllers/SessionController');
 
 routes.get('/users', UserController.index);
 routes.get('/users/:id', UserController.show);
@@ -13,6 +13,6 @@ routes.delete('/users/:id', UserController.destroy);
 
 routes.post('/sessions', SessionController.store);
 routes.use(authMiddleware);
-routes.get('/dashboard', (req, res) => {});
+routes.get('/dashboard', (req, res) => { ok: true });
 
 module.exports = routes;

@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const environment = require('../../.env');
+const environment = require('../../../.env');
 
 const { Model, DataTypes } = require('sequelize');
 
