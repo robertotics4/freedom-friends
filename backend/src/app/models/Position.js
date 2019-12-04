@@ -10,8 +10,8 @@ class Position extends Model {
                 },
             },
             initials: {
-                type: DataTypes.CHAR,
-                validate: { len: [2, 2] }
+                type: DataTypes.STRING,
+                validate: { len: [2, 3] }
             },
         }, {
             sequelize

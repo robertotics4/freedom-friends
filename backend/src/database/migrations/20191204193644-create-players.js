@@ -20,7 +20,9 @@ module.exports = {
       },
       position_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'positions', key: 'id' }
+        references: { model: 'positions', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       skills: {
         type: Sequelize.INTEGER,
