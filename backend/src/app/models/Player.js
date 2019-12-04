@@ -9,10 +9,18 @@ class Player extends Model {
                     notEmpty: { msg: 'Name field cannot be empty' },
                 },
             },
-            initials: {
-                type: DataTypes.CHAR,
-                validate: { len: [2, 2] }
+            nickname: {
+                type: DataTypes.STRING,
+                validate: {
+                    notEmpty: { msg: 'Nickname field cannot be empty' },
+                },
             },
+            skills: DataTypes.INTEGER,
+            age: {
+                type: DataTypes.INTEGER,
+                validate: { min: 15, max: 70 }
+            },
+            status: DataTypes.BOOLEAN,
         }, {
             sequelize
         });
