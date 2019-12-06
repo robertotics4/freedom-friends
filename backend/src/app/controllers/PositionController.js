@@ -63,7 +63,7 @@ module.exports = {
 
             position = await Position.destroy({ where: { id } });
 
-            return res.status(202).json({ msg: `Positions successfully deleted (${position})` });
+            return res.status(202).json({ msg: `Position successfully deleted (${position})` });
         } catch (err) {
             return res.status(400).json({ error: err.message });
         }
