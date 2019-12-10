@@ -1,22 +1,26 @@
 const User = require('../models/User');
 
 class SessionController {
-    async store(req, res) {
-        const { email, password } = req.body;
+    async authenticate(req, res) {
+        try {
+            const { email, password } = req.body;
 
-        const user = await User.findOne({ where: { email } });
+            const user = await User.findOne({ where: { email } });
 
-        if (!user) {
-            return res.status(401).json({ error: 'User not found' });
+            if (!user)
+                return res.status(401).json({ error: 'User not found' });
+
+
+            if (!(await user.checkPassword(password)))
+                return res.status(401).json({ error: 'Incorrect password' });
+
+            user.password_hash = undefined;
+
+            return res.status(200).json({ user, token: user.generateToken() });
+
+        } catch (err) {
+            return res.status(400).json({ error: err.message });
         }
-
-        if (!(await user.checkPassword(password))) {
-            return res.status(401).json({ error: 'Incorrect password' })
-        }
-
-        user.password_hash = undefined;
-
-        return res.status(200).json({ user, token: user.generateToken() });
     }
 }
 

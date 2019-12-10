@@ -21,9 +21,14 @@ class Player extends Model {
                 validate: { min: 15, max: 70 }
             },
             status: DataTypes.BOOLEAN,
+            position_id: DataTypes.INTEGER,
         }, {
             sequelize
         });
+    }
+
+    static associate(models) {
+        this.hasOne(models.Position, { foreignKey: 'position_id', as: 'position' });
     }
 }
 

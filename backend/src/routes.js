@@ -13,11 +13,8 @@ routes.get('/users/:id', UserController.show);
 routes.post('/users', UserController.store);
 routes.delete('/users/:id', UserController.destroy);
 
-routes.post('/sessions', SessionController.store);
-//routes.use(authMiddleware);
-routes.get('/dashboard', (req, res) => {
-    return res.json({ ok: true });
-});
+routes.post('/authenticate', SessionController.authenticate);
+routes.use(authMiddleware);
 
 routes.post('/positions', PositionController.store);
 routes.get('/positions', PositionController.index);

@@ -5,9 +5,8 @@ const environment = require('../../../.env');
 module.exports = async (req, res, next) => {
     const authHeader = req.headers.authorization;
 
-    if (!authHeader) {
+    if (!authHeader)
         return res.status(401).json({ error: 'Token not provided' });
-    }
 
     const [, token] = authHeader.split(' ');
 
