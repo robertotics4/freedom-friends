@@ -14,4 +14,7 @@ User.init(connection);
 Position.init(connection);
 Player.init(connection);
 
+// Iniciando associações
+Player.associate(connection.models);
+
 module.exports = connection;
