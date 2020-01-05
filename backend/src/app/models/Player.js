@@ -28,7 +28,7 @@ class Player extends Model {
     }
 
     static associate(models) {
-        this.hasOne(models.Position, { foreignKey: 'position_id', as: 'position' });
+        this.hasOne(models.Position, { foreignKey: 'id', as: 'position' });
     }
 }
 

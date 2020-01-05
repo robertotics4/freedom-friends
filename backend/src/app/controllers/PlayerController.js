@@ -4,7 +4,14 @@ const Position = require('../models/Position');
 module.exports = {
     async index(req, res) {
         try {
-            const players = await Player.findAll();
+            const players = await Player.findAll({
+                include: [
+                    {
+                        model: Position,
+                        as: 'position',
+                    },
+                ],
+            });
 
             return res.status(200).json(players);
         } catch (err) {
@@ -30,7 +37,7 @@ module.exports = {
 
     async store(req, res) {
         try {
-            const { name, nickname, position_id, skill, age } = req.body;
+            const { name, nickname, position_id, skills, age } = req.body;
 
             let player = await Player.findOne({ where: { nickname } });
 
@@ -41,7 +48,7 @@ module.exports = {
                 name,
                 nickname,
                 position_id,
-                skill,
+                skills,
                 age
             });
 
