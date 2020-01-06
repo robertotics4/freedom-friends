@@ -7,6 +7,7 @@ module.exports = {
             const players = await Player.findAll({
                 include: [
                     {
+                        attributes: ['name', 'initials'],
                         model: Position,
                         as: 'position',
                     },
@@ -15,7 +16,7 @@ module.exports = {
 
             return res.status(200).json(players);
         } catch (err) {
-            return res.status(400).json({ error: err.message });
+            return res.status(500).json({ error: err.message });
         }
     },
 
@@ -31,7 +32,7 @@ module.exports = {
             return res.status(200).json(player);
 
         } catch (err) {
-            return res.status(400).json({ error: err.message });
+            return res.status(500).json({ error: err.message });
         }
     },
 
@@ -42,7 +43,7 @@ module.exports = {
             let player = await Player.findOne({ where: { nickname } });
 
             if (player)
-                return res.status(400).json({ msg: 'Player name already exists, please try again' });
+                return res.status(400).json({ msg: 'Player nickname already exists, please try again' });
 
             player = await Player.create({
                 name,
@@ -55,7 +56,7 @@ module.exports = {
             return res.status(200).json(player);
 
         } catch (err) {
-            return res.status(400).json({ error: err.message });
+            return res.status(500).json({ error: err.message });
         }
     },
 
@@ -73,7 +74,7 @@ module.exports = {
             return res.status(202).json({ msg: `Player successfully deleted (${player})` });
 
         } catch (err) {
-            return res.status(400).json({ error: err.message });
+            return res.status(500).json({ error: err.message });
         }
     },
 
@@ -98,7 +99,7 @@ module.exports = {
             return res.status(200).json({ msg: `Player successfully updated (${player})` });
 
         } catch (err) {
-            return res.status(400).json({ error: err.message });
+            return res.status(500).json({ error: err.message });
         }
     },
 };

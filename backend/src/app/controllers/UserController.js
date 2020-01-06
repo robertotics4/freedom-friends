@@ -7,7 +7,7 @@ module.exports = {
 
             return res.json(users);
         } catch (err) {
-            return res.status(400).json({ error: err.message });
+            return res.status(500).json({ error: err.message });
         }
     },
 
@@ -25,7 +25,7 @@ module.exports = {
 
             return res.status(200).json({ user, token: user.generateToken() });
         } catch (err) {
-            return res.status(400).json({ error: err.message });
+            return res.status(500).json({ error: err.message });
         }
     },
 
@@ -41,7 +41,7 @@ module.exports = {
 
             return res.status(200).json(user);
         } catch (err) {
-            return res.status(400).json({ error: err.message });
+            return res.status(500).json({ error: err.message });
         }
     },
 
@@ -57,7 +57,7 @@ module.exports = {
                 return res.status(200).json({ message: 'User successfully deleted' });
             }
         } catch (err) {
-            return res.status(400).json({ error: err.message });
+            return res.status(500).json({ error: err.message });
         }
     },
 };

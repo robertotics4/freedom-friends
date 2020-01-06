@@ -22,7 +22,7 @@ module.exports = {
 
             return res.status(200).json(position);
         } catch (err) {
-            return res.status(400).json({ error: err.message });
+            return res.status(500).json({ error: err.message });
         }
     },
 
@@ -32,7 +32,7 @@ module.exports = {
 
             return res.status(200).json(positions);
         } catch (err) {
-            return res.status(400).json({ error: err.message });
+            return res.status(500).json({ error: err.message });
         }
     },
 
@@ -48,7 +48,7 @@ module.exports = {
             return res.status(200).json({ position });
 
         } catch (err) {
-            return res.status(400).json({ error: err.message });
+            return res.status(500).json({ error: err.message });
         }
     },
 
@@ -65,7 +65,7 @@ module.exports = {
 
             return res.status(202).json({ msg: `Position successfully deleted (${position})` });
         } catch (err) {
-            return res.status(400).json({ error: err.message });
+            return res.status(500).json({ error: err.message });
         }
     },
 
@@ -88,7 +88,7 @@ module.exports = {
 
             return res.status(200).json(positionFormatted);
         } catch (err) {
-            return res.status(400).json({ error: err.message });
+            return res.status(500).json({ error: err.message });
         }
     },
 };

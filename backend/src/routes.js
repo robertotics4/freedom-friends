@@ -7,6 +7,7 @@ const UserController = require('./app/controllers/UserController');
 const SessionController = require('./app/controllers/SessionController');
 const PositionController = require('./app/controllers/PositionController');
 const PlayerController = require('./app/controllers/PlayerController');
+const TeamController = require('./app/controllers/TeamController');
 
 routes.get('/users', UserController.index);
 routes.get('/users/:id', UserController.show);
@@ -27,5 +28,9 @@ routes.get('/players', PlayerController.index);
 routes.get('/players/:id', PlayerController.show);
 routes.put('/players/:id', PlayerController.update);
 routes.delete('/players/:id', PlayerController.destroy);
+
+routes.get('/teams', TeamController.index);
+routes.post('/teams', TeamController.store);
+routes.delete('/teams/:id', TeamController.destroy);
 
 module.exports = routes;
