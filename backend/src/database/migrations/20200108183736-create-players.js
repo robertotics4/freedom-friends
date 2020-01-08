@@ -24,6 +24,12 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
+      team_id: {
+        type: Sequelize.INTEGER,
+        references: { model: 'teams', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
       skills: {
         type: Sequelize.INTEGER,
         defaultValue: 0,

@@ -22,13 +22,16 @@ class Player extends Model {
             },
             status: DataTypes.BOOLEAN,
             position_id: DataTypes.INTEGER,
+            team_id: DataTypes.INTEGER,
+
         }, {
             sequelize
         });
     }
 
     static associate(models) {
-        this.hasOne(models.Position, { foreignKey: 'id', as: 'position' });
+        this.hasOne(models.Position, { foreignKey: 'position_id', as: 'position' });
+        this.belongsTo(models.Team, { foreignKey: 'team_id', as: 'team' });
     }
 }
 

@@ -1,5 +1,6 @@
 const Player = require('../models/Player');
 const Position = require('../models/Position');
+const Team = require('../models/Team');
 
 module.exports = {
     async index(req, res) {
@@ -9,8 +10,13 @@ module.exports = {
                     {
                         attributes: ['name', 'initials'],
                         model: Position,
-                        as: 'position',
+                        as: 'position'
                     },
+                    {
+                        attributes: ['name'],
+                        model: Team,
+                        as: 'team',
+                    }
                 ],
             });
 
@@ -38,7 +44,7 @@ module.exports = {
 
     async store(req, res) {
         try {
-            const { name, nickname, position_id, skills, age } = req.body;
+            const { name, nickname, position_id, team_id, skills, age } = req.body;
 
             let player = await Player.findOne({ where: { nickname } });
 
@@ -49,6 +55,7 @@ module.exports = {
                 name,
                 nickname,
                 position_id,
+                team_id,
                 skills,
                 age
             });

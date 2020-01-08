@@ -9,12 +9,8 @@ class Team extends Model {
                     notEmpty: { msg: 'Name field cannot be empty' },
                 },
             },
-            players_id: DataTypes.INTEGER,
             color: {
                 type: DataTypes.STRING,
-                validate: {
-                    is: /#?(([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})|([0-9a-f])([0-9a-f])([0-9a-f]))/,
-                },
             },
         }, {
             sequelize

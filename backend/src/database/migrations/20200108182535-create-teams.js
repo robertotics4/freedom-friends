@@ -13,12 +13,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      players_id: {
-        type: Sequelize.INTEGER,
-        references: { model: 'players', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
       color: {
         type: Sequelize.STRING,
         defaultValue: "#FFFFFF",

@@ -7,6 +7,7 @@ module.exports = {
             const teams = await Team.findAll({
                 include: [
                     {
+                        attributes: ['name'],
                         model: Player,
                         as: 'players',
                     },
@@ -28,7 +29,7 @@ module.exports = {
             if (team)
                 return res.status(400).json({ msg: 'Team name already exists, please try again' });
 
-            team = await Team.create({ name, color });
+            team = await Team.create({ name: name.toUpperCase(), color });
 
             return res.status(200).json(team);
 
