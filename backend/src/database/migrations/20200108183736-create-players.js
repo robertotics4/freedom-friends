@@ -18,12 +18,6 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      position_id: {
-        type: Sequelize.INTEGER,
-        references: { model: 'positions', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
       team_id: {
         type: Sequelize.INTEGER,
         references: { model: 'teams', key: 'id' },

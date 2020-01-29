@@ -10,27 +10,24 @@ const PlayerController = require('./app/controllers/PlayerController');
 const TeamController = require('./app/controllers/TeamController');
 
 routes.get('/users', UserController.index);
-routes.get('/users/:id', UserController.show);
+routes.get('/users/:user_id', UserController.show);
 routes.post('/users', UserController.store);
-routes.delete('/users/:id', UserController.destroy);
+routes.delete('/users/:user_id', UserController.destroy);
 
 routes.post('/authenticate', SessionController.authenticate);
 //routes.use(authMiddleware);
 
-routes.post('/positions', PositionController.store);
-routes.get('/positions', PositionController.index);
-routes.get('/positions/:id', PositionController.show);
-routes.put('/positions/:id', PositionController.update);
-routes.delete('/positions/:id', PositionController.destroy);
-
 routes.post('/players', PlayerController.store);
 routes.get('/players', PlayerController.index);
-routes.get('/players/:id', PlayerController.show);
-routes.put('/players/:id', PlayerController.update);
-routes.delete('/players/:id', PlayerController.destroy);
+routes.get('/players/:player_id', PlayerController.show);
+routes.put('/players/:player_id', PlayerController.update);
+routes.delete('/players/:player_id', PlayerController.destroy);
+
+routes.get('/players/:player_id/positions', PositionController.index);
+routes.post('/players/:player_id/positions', PositionController.store);
 
 routes.get('/teams', TeamController.index);
 routes.post('/teams', TeamController.store);
-routes.delete('/teams/:id', TeamController.destroy);
+routes.delete('/teams/:team_id', TeamController.destroy);
 
 module.exports = routes;

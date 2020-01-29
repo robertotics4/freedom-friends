@@ -31,9 +31,9 @@ module.exports = {
 
     async show(req, res) {
         try {
-            const { id } = req.params;
+            const { user_id } = req.params;
 
-            const user = await User.scope('withoutPassword').findByPk(id);
+            const user = await User.scope('withoutPassword').findByPk(user_id);
 
             if (!user) {
                 return res.status(404).json({ error: 'User not found' });
@@ -47,9 +47,9 @@ module.exports = {
 
     async destroy(req, res) {
         try {
-            const { id } = req.params;
+            const { user_id } = req.params;
 
-            const user = await User.destroy({ where: { id } });
+            const user = await User.destroy({ where: { user_id } });
 
             if (user !== 1) {
                 return res.status(404).json({ error: 'User not found' });

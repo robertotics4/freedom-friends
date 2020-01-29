@@ -8,11 +8,6 @@ module.exports = {
             const players = await Player.findAll({
                 include: [
                     {
-                        attributes: ['name', 'initials'],
-                        model: Position,
-                        as: 'position'
-                    },
-                    {
                         attributes: ['name'],
                         model: Team,
                         as: 'team',
@@ -28,9 +23,9 @@ module.exports = {
 
     async show(req, res) {
         try {
-            const { id } = req.params;
+            const { player_id } = req.params;
 
-            const player = await Player.findByPk(id);
+            const player = await Player.findByPk(player_id);
 
             if (!player)
                 return res.status(404).json({ msg: 'Player not found' });
@@ -44,7 +39,7 @@ module.exports = {
 
     async store(req, res) {
         try {
-            const { name, nickname, position_id, team_id, skills, age } = req.body;
+            const { name, nickname, team_id, skills, age } = req.body;
 
             let player = await Player.findOne({ where: { nickname } });
 
@@ -54,7 +49,6 @@ module.exports = {
             player = await Player.create({
                 name,
                 nickname,
-                position_id,
                 team_id,
                 skills,
                 age
@@ -69,14 +63,14 @@ module.exports = {
 
     async destroy(req, res) {
         try {
-            const { id } = req.params;
+            const { player_id } = req.params;
 
-            let player = await Player.findOne({ where: { id } });
+            let player = await Player.findOne({ where: { player_id } });
 
             if (!player)
                 return res.status(404).json({ msg: 'Player not found' });
 
-            player = await Player.destroy({ where: { id } });
+            player = await Player.destroy({ where: { player_id } });
 
             return res.status(202).json({ msg: `Player successfully deleted (${player})` });
 
@@ -87,10 +81,10 @@ module.exports = {
 
     async update(req, res) {
         try {
-            const { id } = req.params;
-            const { name, nickname, position_id, skill, age } = req.body;
+            const { player_id } = req.params;
+            const { name, nickname, skill, age } = req.body;
 
-            let player = await Player.findOne({ where: { id } });
+            let player = await Player.findOne({ where: { player_id } });
 
             if (!player)
                 return res.status(404).json({ msg: 'Player not found' });
@@ -98,10 +92,9 @@ module.exports = {
             player = await Player.update({
                 name,
                 nickname,
-                position_id,
                 skill,
                 age
-            }, { where: { id } });
+            }, { where: { player_id } });
 
             return res.status(200).json({ msg: `Player successfully updated (${player})` });
 

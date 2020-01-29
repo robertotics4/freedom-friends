@@ -17,6 +17,10 @@ class Position extends Model {
             sequelize
         });
     }
+
+    static associate(models) {
+        this.belongsToMany(models.Player, { foreignKey: 'position_id', through: 'player_positions', as: 'players' });
+    }
 }
 
 module.exports = Position;

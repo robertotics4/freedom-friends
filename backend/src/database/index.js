@@ -19,5 +19,6 @@ Team.init(connection);
 // Iniciando associações
 Player.associate(connection.models);
 Team.associate(connection.models);
+Position.associate(connection.models);
 
 module.exports = connection;

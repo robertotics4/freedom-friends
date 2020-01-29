@@ -40,14 +40,14 @@ module.exports = {
 
     async destroy(req, res) {
         try {
-            const { id } = req.params;
+            const { team_id } = req.params;
 
-            let team = await Team.findByPk(id);
+            let team = await Team.findByPk(team_id);
 
             if (!team)
                 return res.status(404).json({ msg: 'Team not found' });
 
-            team = await Team.destroy({ where: { id } });
+            team = await Team.destroy({ where: { team_id } });
 
             return res.status(202).json({ msg: `Team successfully deleted (${team})` });
 

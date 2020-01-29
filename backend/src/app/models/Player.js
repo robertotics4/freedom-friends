@@ -21,7 +21,6 @@ class Player extends Model {
                 validate: { min: 15, max: 70 }
             },
             status: DataTypes.BOOLEAN,
-            position_id: DataTypes.INTEGER,
             team_id: DataTypes.INTEGER,
 
         }, {
@@ -30,8 +29,8 @@ class Player extends Model {
     }
 
     static associate(models) {
-        this.hasOne(models.Position, { foreignKey: 'position_id', as: 'position' });
         this.belongsTo(models.Team, { foreignKey: 'team_id', as: 'team' });
+        this.belongsToMany(models.Position, { foreignKey: 'player_id', through: 'player_positions', as: 'positions' });
     }
 }
 

@@ -1,36 +1,43 @@
 const Position = require('../models/Position');
+const Player = require('../models/Player');
 const { Op } = require('sequelize');
 
 module.exports = {
-    async store(req, res) {
+    async index(req, res) {
         try {
-            const { name, initials } = req.body;
+            const { player_id } = req.params;
 
-            let position = await Position.findOne({
-                where: { [Op.or]: [{ name }, { initials }] }
-            });
+            const positions = await Player.getPositions(player_id);
 
-            if (position)
-                return res.status(400).json({ msg: 'Position already exists, please try again' });
-
-            positionFormatted = {
-                name: name.toUpperCase(),
-                initials: initials.trim().toUpperCase(),
-            }
-
-            position = await Position.create(positionFormatted);
-
-            return res.status(200).json(position);
+            return res.status(200).json(positions);
         } catch (err) {
             return res.status(500).json({ error: err.message });
         }
     },
 
-    async index(req, res) {
+    async store(req, res) {
         try {
-            const positions = await Position.findAll();
+            const { player_id } = req.params;
+            const { name, initials } = req.body;
 
-            return res.status(200).json(positions);
+            const player = await Player.findByPk(player_id);
+
+            if (!player) {
+                return res.status(400).json({ msg: 'Player not found' });
+            }
+
+            const [position] = await Position.findOrCreate({
+                where: { [Op.or]: [{ name }, { initials }] }
+            });
+
+            positionFormatted = {
+                name: position.name.toUpperCase(),
+                initials: position.initials.trim().toUpperCase(),
+            }
+
+            await player.addPosition(positionFormatted);
+
+            return res.status(200).json(positionFormatted);
         } catch (err) {
             return res.status(500).json({ error: err.message });
         }
