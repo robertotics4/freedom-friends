@@ -7,9 +7,14 @@ module.exports = {
         try {
             const { player_id } = req.params;
 
-            const positions = await Player.getPositions(player_id);
+            const player = await Player.findByPk(player_id, {
+                include: {
+                    association: 'positions',
+                    through: { attributes: [] }
+                }
+            });
 
-            return res.status(200).json(positions);
+            return res.status(200).json(player.positions);
         } catch (err) {
             return res.status(500).json({ error: err.message });
         }
@@ -26,51 +31,55 @@ module.exports = {
                 return res.status(400).json({ msg: 'Player not found' });
             }
 
-            const [position] = await Position.findOrCreate({
-                where: { [Op.or]: [{ name }, { initials }] }
-            });
-
-            positionFormatted = {
-                name: position.name.toUpperCase(),
-                initials: position.initials.trim().toUpperCase(),
+            let positionFormatted = {
+                name: name.toUpperCase(),
+                initials: initials.trim().toUpperCase(),
             }
 
-            await player.addPosition(positionFormatted);
+            let position = await Position.findOne({
+                where: {
+                    [Op.or]: [
+                        { name: positionFormatted.name },
+                        { initials: positionFormatted.initials }
+                    ]
+                }
+            });
 
-            return res.status(200).json(positionFormatted);
+            if (!position) {
+                position = await Position.create(positionFormatted);
+            }
+
+            await player.addPosition(position);
+
+            return res.status(200).json(position);
         } catch (err) {
             return res.status(500).json({ error: err.message });
         }
     },
 
-    async show(req, res) {
+    async delete(req, res) {
         try {
-            const { id } = req.params;
+            const { player_id } = req.params;
+            const { name } = req.body;
 
-            const position = await Position.findByPk(id);
+            const player = await Player.findByPk(player_id);
 
-            if (!position)
-                return res.status(404).json({ msg: 'Position not found' });
+            if (!player) {
+                return res.status(400).json({ msg: 'Player not found' });
+            }
 
-            return res.status(200).json({ position });
+            let position = await Position.findOne({
+                where: {
+                    [Op.or]: [{ name: name.toUpperCase() }]
+                }
+            });
 
-        } catch (err) {
-            return res.status(500).json({ error: err.message });
-        }
-    },
+            if (position) {
+                await player.removePosition(position);
+            }
 
-    async destroy(req, res) {
-        try {
-            const { id } = req.params;
+            return res.status(202).json({});
 
-            let position = await Position.findByPk(id);
-
-            if (!position)
-                return res.status(404).json({ msg: 'Position not found' });
-
-            position = await Position.destroy({ where: { id } });
-
-            return res.status(202).json({ msg: `Position successfully deleted (${position})` });
         } catch (err) {
             return res.status(500).json({ error: err.message });
         }

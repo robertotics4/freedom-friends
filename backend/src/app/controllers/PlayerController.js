@@ -11,6 +11,12 @@ module.exports = {
                         attributes: ['name'],
                         model: Team,
                         as: 'team',
+                    },
+                    {
+                        association: 'positions',
+                        through: {
+                            attributes: []
+                        }
                     }
                 ],
             });

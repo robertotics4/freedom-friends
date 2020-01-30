@@ -25,6 +25,7 @@ routes.delete('/players/:player_id', PlayerController.destroy);
 
 routes.get('/players/:player_id/positions', PositionController.index);
 routes.post('/players/:player_id/positions', PositionController.store);
+routes.delete('/players/:player_id/positions', PositionController.delete);
 
 routes.get('/teams', TeamController.index);
 routes.post('/teams', TeamController.store);
