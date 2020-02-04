@@ -6,6 +6,7 @@ const User = require('../app/models/User');
 const Position = require('../app/models/Position');
 const Player = require('../app/models/Player');
 const Team = require('../app/models/Team');
+const Goal = require('../app/models/Goal');
 
 // Configurando a conexão com o banco
 const connection = new Sequelize(dbconfig);
@@ -15,10 +16,12 @@ User.init(connection);
 Position.init(connection);
 Player.init(connection);
 Team.init(connection);
+Goal.init(connection);
 
 // Iniciando associações
 Player.associate(connection.models);
 Team.associate(connection.models);
 Position.associate(connection.models);
+Goal.associate(connection.models);
 
 module.exports = connection;
