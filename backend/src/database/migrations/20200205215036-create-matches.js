@@ -9,33 +9,17 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      nickname: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      team_id: {
+      scoreboard_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'teams', key: 'id' },
+        references: { model: 'scoreboards', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      skills: {
+      referee_id: {
         type: Sequelize.INTEGER,
-        defaultValue: 0,
-      },
-      age: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-      status: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: true,
+        references: { model: 'referees', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       created_at: {
         type: Sequelize.DATE,
