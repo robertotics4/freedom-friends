@@ -9,6 +9,7 @@ const PositionController = require('./app/controllers/PositionController');
 const PlayerController = require('./app/controllers/PlayerController');
 const TeamController = require('./app/controllers/TeamController');
 const GoalController = require('./app/controllers/GoalController');
+const RefereeController = require('./app/controllers/RefereeController');
 
 routes.get('/users', UserController.index);
 routes.get('/users/:user_id', UserController.show);
@@ -35,5 +36,10 @@ routes.delete('/players/:player_id/goals/:goal_id', GoalController.destroy);
 routes.get('/teams', TeamController.index);
 routes.post('/teams', TeamController.store);
 routes.delete('/teams/:team_id', TeamController.destroy);
+
+routes.get('/referees', RefereeController.index);
+routes.post('/referees', RefereeController.store);
+//routes.get('/referees/:referee_id', RefereeController.show);
+//routes.delete('/referees/:referee_id', RefereeController.destroy);
 
 module.exports = routes;
