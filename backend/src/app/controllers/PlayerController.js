@@ -71,12 +71,12 @@ module.exports = {
         try {
             const { player_id } = req.params;
 
-            let player = await Player.findOne({ where: { player_id } });
+            let player = await Player.findByPk(player_id);
 
             if (!player)
                 return res.status(404).json({ msg: 'Player not found' });
 
-            player = await Player.destroy({ where: { player_id } });
+            player = await Player.destroy({ where: { id: player_id } });
 
             return res.status(202).json({ msg: `Player successfully deleted (${player})` });
 
@@ -90,7 +90,7 @@ module.exports = {
             const { player_id } = req.params;
             const { name, nickname, skill, age } = req.body;
 
-            let player = await Player.findOne({ where: { player_id } });
+            let player = await Player.findByPk(player_id);
 
             if (!player)
                 return res.status(404).json({ msg: 'Player not found' });
@@ -100,7 +100,7 @@ module.exports = {
                 nickname,
                 skill,
                 age
-            }, { where: { player_id } });
+            }, { where: { id: player_id } });
 
             return res.status(200).json({ msg: `Player successfully updated (${player})` });
 

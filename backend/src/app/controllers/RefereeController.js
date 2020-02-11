@@ -33,7 +33,6 @@ module.exports = {
         }
     },
 
-    /*
     async show(req, res) {
         try {
             const { referee_id } = req.params;
@@ -64,5 +63,5 @@ module.exports = {
         } catch (err) {
             return res.status(500).json({ error: err.message });
         }
-    },*/
+    },
 };
